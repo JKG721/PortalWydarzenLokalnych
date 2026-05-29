@@ -1,0 +1,36 @@
+<!-- Lista wszystkich wydarzeń w panelu admina -->
+@model List<PortalWydarzenLokalnych.Models.Wydarzenie>
+
+@{
+    ViewData["Title"] = "Zarządzanie wydarzeniami";
+}
+
+<h2>Zarządzanie wydarzeniami</h2>
+<a href="/AdminWydarzenia/Dodaj" class="btn btn-primary mb-3">Dodaj wydarzenie</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Tytuł</th>
+            <th>Kategoria</th>
+            <th>Data</th>
+            <th>Lokalizacja</th>
+            <th>Akcje</th>
+        </tr>
+    </thead>
+   <tbody>
+    @foreach (var wydarzenie in Model)
+    {
+        <tr>
+            <td>@wydarzenie.Nazwa</td>
+            <td>@wydarzenie.Kategoria?.Nazwa</td>
+            <td>@wydarzenie.DataRozpoczecia.ToString("dd.MM.yyyy HH:mm")</td>
+            <td>@wydarzenie.Lokalizacja</td>
+            <td>
+                <a href="/AdminWydarzenia/Edytuj/@wydarzenie.Id" class="btn btn-sm btn-warning">Edytuj</a>
+                <a href="/AdminWydarzenia/Usun/@wydarzenie.Id" class="btn btn-sm btn-danger">Usuń</a>
+            </td>
+        </tr>
+    }
+</tbody>
+</table>

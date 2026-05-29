@@ -1,0 +1,52 @@
+<!-- Formularz dodawania nowego wydarzenia -->
+@{
+    ViewData["Title"] = "Dodaj wydarzenie";
+}
+
+<h2>Dodaj wydarzenie</h2>
+
+<form method="post" enctype="multipart/form-data">
+    <div class="mb-3">
+        <label>Tytuł</label>
+        <input type="text" name="Tytul" class="form-control" required />
+    </div>
+    <div class="mb-3">
+        <label>Opis</label>
+        <textarea name="Opis" class="form-control" rows="4" required></textarea>
+    </div>
+    <div class="mb-3">
+        <label>Data rozpoczęcia</label>
+        <input type="datetime-local" name="DataRozpoczecia" class="form-control" required />
+    </div>
+    <div class="mb-3">
+        <label>Lokalizacja</label>
+        <input type="text" name="Lokalizacja" class="form-control" required />
+    </div>
+    <div class="mb-3">
+        <label>Szerokość geograficzna (np. 50.0614)</label>
+        <input type="text" name="Szerokosc" class="form-control" required />
+    </div>
+    <div class="mb-3">
+        <label>Długość geograficzna (np. 19.9366)</label>
+        <input type="text" name="Dlugosc" class="form-control" required />
+    </div>
+    <div class="mb-3">
+        <label>Maksymalna liczba uczestników</label>
+        <input type="number" name="MaksUczestnikow" class="form-control" required />
+    </div>
+    <div class="mb-3">
+        <label>Kategoria</label>
+        <select name="KategoriaId" class="form-control">
+            @foreach (var k in ViewBag.Kategorie)
+            {
+                <option value="@k.Id">@k.Nazwa</option>
+            }
+        </select>
+    </div>
+    <div class="mb-3">
+        <label>Zdjęcie</label>
+        <input type="file" name="zdjecie" class="form-control" accept="image/*" />
+    </div>
+    <button type="submit" class="btn btn-primary">Dodaj</button>
+    <a href="/AdminWydarzenia" class="btn btn-secondary">Anuluj</a>
+</form>

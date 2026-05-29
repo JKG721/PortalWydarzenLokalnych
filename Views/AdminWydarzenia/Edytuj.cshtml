@@ -1,0 +1,60 @@
+<!-- Formularz edycji wydarzenia -->
+@model PortalWydarzenLokalnych.Models.Wydarzenie
+
+@{
+    ViewData["Title"] = "Edytuj wydarzenie";
+}
+
+<h2>Edytuj wydarzenie</h2>
+
+<form method="post" enctype="multipart/form-data">
+    <input type="hidden" name="Id" value="@Model.Id" />
+    <div class="mb-3">
+        <label>Tytuł</label>
+        <input type="text" name="Tytul" value="@Model.Nazwa" class="form-control" required />
+    </div>
+    <div class="mb-3">
+        <label>Opis</label>
+        <textarea name="Opis" class="form-control" rows="4" required>@Model.Opis</textarea>
+    </div>
+    <div class="mb-3">
+        <label>Data rozpoczęcia</label>
+        <input type="datetime-local" name="DataRozpoczecia" value="@Model.DataRozpoczecia.ToString("yyyy-MM-ddTHH:mm")" class="form-control" required />
+    </div>
+    <div class="mb-3">
+        <label>Lokalizacja</label>
+        <input type="text" name="Lokalizacja" value="@Model.Lokalizacja" class="form-control" required />
+    </div>
+    <div class="mb-3">
+        <label>Szerokość geograficzna</label>
+        <input type="text" name="Szerokosc" value="@Model.Szerokosc" class="form-control" required />
+    </div>
+    <div class="mb-3">
+        <label>Długość geograficzna</label>
+        <input type="text" name="Dlugosc" value="@Model.Dlugosc" class="form-control" required />
+    </div>
+    <div class="mb-3">
+        <label>Maksymalna liczba uczestników</label>
+        <input type="number" name="MaksUczestnikow" value="@Model.MaksUczestnikow" class="form-control" required />
+    </div>
+    <div class="mb-3">
+        <label>Kategoria</label>
+        <select name="KategoriaId" class="form-control">
+            @foreach (var k in ViewBag.Kategorie)
+            {
+                var selected = k.Id == Model.KategoriaId ? "selected" : null;
+                <option value="@k.Id" selected="@selected">@k.Nazwa</option>
+            }
+        </select>
+    </div>
+    <div class="mb-3">
+        <label>Nowe zdjęcie (zostaw puste jeśli nie chcesz zmieniać)</label>
+        @if (!string.IsNullOrEmpty(Model.ZdjecieSciezka))
+        {
+            <img src="@Model.ZdjecieSciezka" style="max-height: 150px;" class="d-block mb-2" />
+        }
+        <input type="file" name="zdjecie" class="form-control" accept="image/*" />
+    </div>
+    <button type="submit" class="btn btn-primary">Zapisz</button>
+    <a href="/AdminWydarzenia" class="btn btn-secondary">Anuluj</a>
+</form>
