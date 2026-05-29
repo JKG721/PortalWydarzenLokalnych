@@ -1,0 +1,42 @@
+<!-- strona rejestracji nowego użytkownika -->
+@{
+    ViewData["Title"] = "Rejestracja";
+}
+
+<h2>Rejestracja</h2>
+
+<form method="post">
+    <!--wyświetlanie bledow-->
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger">
+            @foreach (var blad in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+            {
+                <p>@blad.ErrorMessage</p>
+            }
+        </div>
+    }
+
+    <div class="mb-3">
+        <label>Imię</label>
+        <input type="text" name="imie" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label>Nazwisko</label>
+        <input type="text" name="nazwisko" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label>Email</label>
+        <input type="email" name="email" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label>Hasło</label>
+        <input type="password" name="haslo" class="form-control" required />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Zarejestruj się</button>
+    <a href="/Konto/Logowanie" class="btn btn-link">Mam już konto</a>
+</form>
