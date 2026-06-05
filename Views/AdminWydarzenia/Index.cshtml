@@ -28,7 +28,7 @@
             <td>@wydarzenie.Lokalizacja</td>
             <td>
                 <a href="/AdminWydarzenia/Edytuj/@wydarzenie.Id" class="btn btn-sm btn-warning">Edytuj</a>
-                <a href="/AdminWydarzenia/Usun/@wydarzenie.Id" class="btn btn-sm btn-danger">Usuń</a>
+                <button class="btn btn-sm btn-danger" onclick="potwierdzUsun('/AdminWydarzenia/Usun/@wydarzenie.Id')">Usuń</button>
             </td>
         </tr>
     }

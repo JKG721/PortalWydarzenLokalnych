@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PortalWydarzenLokalnych")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ab4836ad6b92c664ef9335c5ab9a35202afa544d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9637b0ae95633459dd132063b814bc951a5ac831")]
 [assembly: System.Reflection.AssemblyProductAttribute("PortalWydarzenLokalnych")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PortalWydarzenLokalnych")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

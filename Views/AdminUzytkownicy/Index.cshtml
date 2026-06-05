@@ -27,7 +27,7 @@
                 <td>@uzytkownik.DataRejestracji.ToString("dd.MM.yyyy")</td>
                 <td>
                     <a href="/AdminUzytkownicy/Edytuj/@uzytkownik.Id" class="btn btn-sm btn-warning">Edytuj</a>
-                    <a href="/AdminUzytkownicy/Usun/@uzytkownik.Id" class="btn btn-sm btn-danger">Usuń</a>
+                    <button class="btn btn-sm btn-danger" onclick="potwierdzUsun('/AdminUzytkownicy/Usun/@uzytkownik.Id')">Usuń</button>
                 </td>
             </tr>
         }

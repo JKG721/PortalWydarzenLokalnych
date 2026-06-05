@@ -1,0 +1,45 @@
+<!-- Lista wydarzeń na które użytkownik jest zapisany -->
+@model List<PortalWydarzenLokalnych.Models.Zapis>
+
+@{
+    ViewData["Title"] = "Moje zapisy";
+}
+
+<h2>Moje zapisy</h2>
+
+@if (Model.Count == 0)
+{
+    <p>Nie jesteś zapisany na żadne wydarzenie.</p>
+    <a href="/Wydarzenia" class="btn btn-primary">Przeglądaj wydarzenia</a>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nazwa</th>
+                <th>Kategoria</th>
+                <th>Data</th>
+                <th>Lokalizacja</th>
+                <th>Data zapisu</th>
+                <th>Akcje</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var zapis in Model)
+            {
+                <tr>
+                    <td>@zapis.Wydarzenie?.Nazwa</td>
+                    <td>@zapis.Wydarzenie?.Kategoria?.Nazwa</td>
+                    <td>@zapis.Wydarzenie?.DataRozpoczecia.ToString("dd.MM.yyyy HH:mm")</td>
+                    <td>@zapis.Wydarzenie?.Lokalizacja</td>
+                    <td>@zapis.DataZapisu.ToString("dd.MM.yyyy")</td>
+                    <td>
+                        <a href="/Wydarzenia/Szczegoly/@zapis.WydarzenieId" class="btn btn-sm btn-primary">Szczegóły</a>
+                        <button class="btn btn-sm btn-danger" onclick="potwierdzUsun('/Wydarzenia/Wypisz/@zapis.WydarzenieId')">Wypisz się</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

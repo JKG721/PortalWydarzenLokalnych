@@ -1,6 +1,9 @@
 // Kontroler obsługujący rejestrację i logowanie użytkowników
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using PortalWydarzenLokalnych.Data;
 using PortalWydarzenLokalnych.Models;
 
 namespace PortalWydarzenLokalnych.Controllers
@@ -9,14 +12,16 @@ namespace PortalWydarzenLokalnych.Controllers
     {
         private readonly UserManager<Uzytkownik> _userManager;
         private readonly SignInManager<Uzytkownik> _signInManager;
+        private readonly AppDbContext _db;
 
-        public KontoController(UserManager<Uzytkownik> userManager, SignInManager<Uzytkownik> signInManager)
+        public KontoController(UserManager<Uzytkownik> userManager, SignInManager<Uzytkownik> signInManager, AppDbContext db)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _db = db;
         }
 
-        //strona rejestracji
+        // Strona rejestracji
         public IActionResult Rejestracja()
         {
             return View();
@@ -25,7 +30,7 @@ namespace PortalWydarzenLokalnych.Controllers
         [HttpPost]
         public async Task<IActionResult> Rejestracja(string imie, string nazwisko, string email, string haslo)
         {
-            //tworzymy nowego użytkownika
+            // Tworzymy nowego użytkownika
             var uzytkownik = new Uzytkownik
             {
                 Imie = imie,
@@ -39,12 +44,12 @@ namespace PortalWydarzenLokalnych.Controllers
 
             if (wynik.Succeeded)
             {
-                // automatyczne logowanie po rejestracji
+                // Automatyczne logowanie po rejestracji
                 await _signInManager.SignInAsync(uzytkownik, isPersistent: false);
                 return RedirectToAction("Index", "Home");
             }
 
-            // jeśli błąd to pokazujemy go użytkownikowi
+            // Jeśli błąd to pokazujemy go użytkownikowi
             foreach (var blad in wynik.Errors)
             {
                 ModelState.AddModelError("", blad.Description);
@@ -53,7 +58,7 @@ namespace PortalWydarzenLokalnych.Controllers
             return View();
         }
 
-        //strona logowania
+        // Strona logowania
         public IActionResult Logowanie()
         {
             return View();
@@ -73,17 +78,38 @@ namespace PortalWydarzenLokalnych.Controllers
             return View();
         }
 
-        //strona wylogowania
+        // Wylogowanie
         public async Task<IActionResult> Wylogowanie()
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
 
-        //strona braku dostępu
+        // Strona braku dostępu
         public IActionResult BrakDostepu()
         {
             return View();
+        }
+
+        // Moje zapisy na wydarzenia
+        [Authorize]
+        public async Task<IActionResult> MojeZapisy()
+        {
+            // Pobieramy id zalogowanego użytkownika
+            var uzytkownikId = _db.Users
+                .Where(u => u.UserName == User.Identity!.Name)
+                .Select(u => u.Id)
+                .FirstOrDefault();
+
+            // Pobieramy wszystkie zapisy użytkownika
+            var zapisy = await _db.Zapisy
+                .Include(z => z.Wydarzenie)
+                .ThenInclude(w => w!.Kategoria)
+                .Where(z => z.UzytkownikId == uzytkownikId)
+                .OrderBy(z => z.Wydarzenie!.DataRozpoczecia)
+                .ToListAsync();
+
+            return View(zapisy);
         }
     }
 }

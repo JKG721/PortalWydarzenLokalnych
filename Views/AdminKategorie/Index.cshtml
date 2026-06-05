@@ -24,7 +24,7 @@
                 <td>@kategoria.Opis</td>
                 <td>
                     <a href="/AdminKategorie/Edytuj/@kategoria.Id" class="btn btn-sm btn-warning">Edytuj</a>
-                    <a href="/AdminKategorie/Usun/@kategoria.Id" class="btn btn-sm btn-danger">Usuń</a>
+                    <button class="btn btn-sm btn-danger" onclick="potwierdzUsun('/AdminKategorie/Usun/@kategoria.Id')">Usuń</button>
                 </td>
             </tr>
         }
