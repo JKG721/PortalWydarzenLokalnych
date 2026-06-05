@@ -16,10 +16,9 @@ namespace PortalWydarzenLokalnych.Controllers
             _db = db;
         }
 
-        // Lista wszystkich wydarzeń z filtrowaniem
-        public async Task<IActionResult> Index(int? kategoriaId, string? szukaj)
+        // Lista wszystkich wydarzeń z filtrowaniem i sortowaniem
+        public async Task<IActionResult> Index(int? kategoriaId, string? szukaj, string? dataOd, string? dataDo, string? sortuj)
         {
-            // Pobieramy wszystkie przyszłe wydarzenia
             var query = _db.Wydarzenia
                 .Include(w => w.Kategoria)
                 .Include(w => w.Zapisy)
@@ -38,12 +37,38 @@ namespace PortalWydarzenLokalnych.Controllers
                 query = query.Where(w => w.Nazwa.Contains(szukaj) || w.Lokalizacja.Contains(szukaj));
             }
 
-            var wydarzenia = await query.OrderBy(w => w.DataRozpoczecia).ToListAsync();
+            // Filtrowanie po dacie od
+            if (!string.IsNullOrEmpty(dataOd))
+            {
+                var od = DateTime.Parse(dataOd);
+                query = query.Where(w => w.DataRozpoczecia >= od);
+            }
 
-            // Przekazujemy kategorie do filtrów
+            // Filtrowanie po dacie do
+            if (!string.IsNullOrEmpty(dataDo))
+            {
+                var doo = DateTime.Parse(dataDo);
+                query = query.Where(w => w.DataRozpoczecia <= doo);
+            }
+
+            // Sortowanie
+            query = sortuj switch
+            {
+                "nazwa" => query.OrderBy(w => w.Nazwa),
+                "nazwa_desc" => query.OrderByDescending(w => w.Nazwa),
+                "data_desc" => query.OrderByDescending(w => w.DataRozpoczecia),
+                _ => query.OrderBy(w => w.DataRozpoczecia)
+            };
+
+            var wydarzenia = await query.ToListAsync();
+
+            // Przekazujemy dane do filtrów
             ViewBag.Kategorie = await _db.Kategorie.ToListAsync();
             ViewBag.SzukajFraza = szukaj;
             ViewBag.KategoriaId = kategoriaId;
+            ViewBag.DataOd = dataOd;
+            ViewBag.DataDo = dataDo;
+            ViewBag.Sortuj = sortuj;
 
             return View(wydarzenia);
         }
@@ -74,7 +99,6 @@ namespace PortalWydarzenLokalnych.Controllers
         [Authorize]
         public async Task<IActionResult> Zapisz(int id)
         {
-            // Pobieramy id zalogowanego użytkownika
             var uzytkownikId = _db.Users
                 .Where(u => u.UserName == User.Identity!.Name)
                 .Select(u => u.Id)

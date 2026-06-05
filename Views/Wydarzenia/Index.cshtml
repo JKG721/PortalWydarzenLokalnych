@@ -9,12 +9,12 @@
 
 <!-- Filtry wyszukiwania -->
 <form method="get" class="mb-4">
-    <div class="row">
-        <div class="col-md-4">
-            <input type="text" name="szukaj" value="@ViewBag.SzukajFraza" 
+    <div class="row g-2">
+        <div class="col-md-3">
+            <input type="text" name="szukaj" value="@ViewBag.SzukajFraza"
                    class="form-control" placeholder="Szukaj wydarzeń..." />
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
             <select name="kategoriaId" class="form-control">
                 <option value="">-- Wszystkie kategorie --</option>
                 @foreach (var k in ViewBag.Kategorie)
@@ -23,6 +23,25 @@
                 }
             </select>
         </div>
+        <div class="col-md-2">
+            <input type="date" name="dataOd" value="@ViewBag.DataOd"
+                   class="form-control" placeholder="Data od" />
+        </div>
+        <div class="col-md-2">
+            <input type="date" name="dataDo" value="@ViewBag.DataDo"
+                   class="form-control" placeholder="Data do" />
+        </div>
+        <div class="col-md-2">
+            <select name="sortuj" class="form-control">
+                <option value="">-- Sortuj --</option>
+                <option value="data">Data rosnąco</option>
+                <option value="data_desc">Data malejąco</option>
+                <option value="nazwa">Nazwa A-Z</option>
+                <option value="nazwa_desc">Nazwa Z-A</option>
+            </select>
+        </div>
+    </div>
+    <div class="row mt-2">
         <div class="col-md-2">
             <button type="submit" class="btn btn-primary w-100">Szukaj</button>
         </div>
@@ -55,10 +74,10 @@ else
                     <div class="card-body">
                         <h5 class="card-title">@wydarzenie.Nazwa</h5>
                         <p class="card-text text-muted">
-                            📅 @wydarzenie.DataRozpoczecia.ToString("dd.MM.yyyy HH:mm")
+                             @wydarzenie.DataRozpoczecia.ToString("dd.MM.yyyy HH:mm")
                         </p>
                         <p class="card-text text-muted">
-                            📍 @wydarzenie.Lokalizacja
+                             @wydarzenie.Lokalizacja
                         </p>
                         <span class="badge bg-secondary">@wydarzenie.Kategoria?.Nazwa</span>
                         <!-- Licznik zapisanych -->
