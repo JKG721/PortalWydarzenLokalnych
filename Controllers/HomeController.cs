@@ -19,6 +19,7 @@ namespace PortalWydarzenLokalnych.Controllers
         {
             var wydarzenia = await _db.Wydarzenia
                 .Include(w => w.Kategoria)
+                .Include(w => w.Zapisy)
                 .Where(w => w.DataRozpoczecia >= DateTime.Now)
                 .OrderBy(w => w.DataRozpoczecia)
                 .Take(6)

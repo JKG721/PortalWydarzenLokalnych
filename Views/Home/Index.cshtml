@@ -12,7 +12,7 @@
     <a href="/Wydarzenia" class="btn btn-light btn-lg">Zobacz wszystkie wydarzenia</a>
 </div>
 
-<!-- najbliższe wydarzenia -->
+<!-- Najbliższe wydarzenia -->
 <h2 class="mb-4">Najbliższe wydarzenia</h2>
 
 @if (Model.Count == 0)
@@ -44,6 +44,8 @@ else
                             📍 @wydarzenie.Lokalizacja
                         </p>
                         <span class="badge bg-secondary">@wydarzenie.Kategoria?.Nazwa</span>
+                        <!-- Licznik zapisanych -->
+                        <span class="badge bg-info ms-1">👥 @wydarzenie.Zapisy.Count / @wydarzenie.MaksUczestnikow</span>
                     </div>
                     <div class="card-footer">
                         <a href="/Wydarzenia/Szczegoly/@wydarzenie.Id" class="btn btn-primary btn-sm">Zobacz szczegóły</a>

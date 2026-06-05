@@ -19,7 +19,7 @@
                 <option value="">-- Wszystkie kategorie --</option>
                 @foreach (var k in ViewBag.Kategorie)
                 {
-                     <option value="@k.Id">@k.Nazwa</option>
+                    <option value="@k.Id">@k.Nazwa</option>
                 }
             </select>
         </div>
@@ -50,7 +50,7 @@ else
                     }
                     else
                     {
-                            <img src="https://placehold.co/400x200?text=Brak+zdjecia" class="card-img-top" style="height: 200px; object-fit: cover;" />
+                        <img src="https://placehold.co/400x200?text=Brak+zdjecia" class="card-img-top" style="height: 200px; object-fit: cover;" />
                     }
                     <div class="card-body">
                         <h5 class="card-title">@wydarzenie.Nazwa</h5>
@@ -61,6 +61,8 @@ else
                             📍 @wydarzenie.Lokalizacja
                         </p>
                         <span class="badge bg-secondary">@wydarzenie.Kategoria?.Nazwa</span>
+                        <!-- Licznik zapisanych -->
+                        <span class="badge bg-info ms-1">👥 @wydarzenie.Zapisy.Count / @wydarzenie.MaksUczestnikow</span>
                     </div>
                     <div class="card-footer">
                         <a href="/Wydarzenia/Szczegoly/@wydarzenie.Id" class="btn btn-primary btn-sm">Zobacz szczegóły</a>
