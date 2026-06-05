@@ -1,0 +1,32 @@
+<!-- Lista wszystkich kategorii w panelu admina -->
+@model List<PortalWydarzenLokalnych.Models.Kategoria>
+
+@{
+    ViewData["Title"] = "Zarządzanie kategoriami";
+}
+
+<h2>Zarządzanie kategoriami</h2>
+<a href="/AdminKategorie/Dodaj" class="btn btn-primary mb-3">Dodaj kategorię</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Nazwa</th>
+            <th>Opis</th>
+            <th>Akcje</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var kategoria in Model)
+        {
+            <tr>
+                <td>@kategoria.Nazwa</td>
+                <td>@kategoria.Opis</td>
+                <td>
+                    <a href="/AdminKategorie/Edytuj/@kategoria.Id" class="btn btn-sm btn-warning">Edytuj</a>
+                    <a href="/AdminKategorie/Usun/@kategoria.Id" class="btn btn-sm btn-danger">Usuń</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

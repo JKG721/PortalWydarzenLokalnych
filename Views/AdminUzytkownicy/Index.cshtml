@@ -1,0 +1,35 @@
+<!-- Lista wszystkich użytkowników w panelu admina -->
+@model List<PortalWydarzenLokalnych.Models.Uzytkownik>
+
+@{
+    ViewData["Title"] = "Zarządzanie użytkownikami";
+}
+
+<h2>Zarządzanie użytkownikami</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Imię</th>
+            <th>Nazwisko</th>
+            <th>Email</th>
+            <th>Data rejestracji</th>
+            <th>Akcje</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var uzytkownik in Model)
+        {
+            <tr>
+                <td>@uzytkownik.Imie</td>
+                <td>@uzytkownik.Nazwisko</td>
+                <td>@uzytkownik.Email</td>
+                <td>@uzytkownik.DataRejestracji.ToString("dd.MM.yyyy")</td>
+                <td>
+                    <a href="/AdminUzytkownicy/Edytuj/@uzytkownik.Id" class="btn btn-sm btn-warning">Edytuj</a>
+                    <a href="/AdminUzytkownicy/Usun/@uzytkownik.Id" class="btn btn-sm btn-danger">Usuń</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

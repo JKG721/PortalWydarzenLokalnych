@@ -1,0 +1,26 @@
+<!-- Formularz edycji użytkownika -->
+@model PortalWydarzenLokalnych.Models.Uzytkownik
+
+@{
+    ViewData["Title"] = "Edytuj użytkownika";
+}
+
+<h2>Edytuj użytkownika</h2>
+
+<form method="post">
+    <input type="hidden" name="Id" value="@Model.Id" />
+    <div class="mb-3">
+        <label>Imię</label>
+        <input type="text" name="Imie" value="@Model.Imie" class="form-control" required />
+    </div>
+    <div class="mb-3">
+        <label>Nazwisko</label>
+        <input type="text" name="Nazwisko" value="@Model.Nazwisko" class="form-control" required />
+    </div>
+    <div class="mb-3">
+        <label>Email</label>
+        <input type="email" name="Email" value="@Model.Email" class="form-control" required />
+    </div>
+    <button type="submit" class="btn btn-primary">Zapisz</button>
+    <a href="/AdminUzytkownicy" class="btn btn-secondary">Anuluj</a>
+</form>

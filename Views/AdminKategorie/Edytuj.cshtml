@@ -1,0 +1,22 @@
+<!-- Formularz edycji kategorii -->
+@model PortalWydarzenLokalnych.Models.Kategoria
+
+@{
+    ViewData["Title"] = "Edytuj kategorię";
+}
+
+<h2>Edytuj kategorię</h2>
+
+<form method="post">
+    <input type="hidden" name="Id" value="@Model.Id" />
+    <div class="mb-3">
+        <label>Nazwa</label>
+        <input type="text" name="Nazwa" value="@Model.Nazwa" class="form-control" required />
+    </div>
+    <div class="mb-3">
+        <label>Opis</label>
+        <textarea name="Opis" class="form-control" rows="3">@Model.Opis</textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Zapisz</button>
+    <a href="/AdminKategorie" class="btn btn-secondary">Anuluj</a>
+</form>
