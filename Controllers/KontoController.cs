@@ -111,5 +111,46 @@ namespace PortalWydarzenLokalnych.Controllers
 
             return View(zapisy);
         }
+
+        // Strona edycji profilu
+        [Authorize]
+        public async Task<IActionResult> Profil()
+        {
+            var uzytkownik = await _userManager.FindByNameAsync(User.Identity!.Name!);
+            if (uzytkownik == null) return NotFound();
+            return View(uzytkownik);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> Profil(string imie, string nazwisko, string email)
+        {
+            var uzytkownik = await _userManager.FindByNameAsync(User.Identity!.Name!);
+            if (uzytkownik == null) return NotFound();
+
+            // Aktualizujemy dane użytkownika
+            uzytkownik.Imie = imie;
+            uzytkownik.Nazwisko = nazwisko;
+            uzytkownik.Email = email;
+            uzytkownik.UserName = email;
+
+            var wynik = await _userManager.UpdateAsync(uzytkownik);
+
+            if (wynik.Succeeded)
+            {
+                // Odświeżamy sesję po zmianie emaila
+                await _signInManager.RefreshSignInAsync(uzytkownik);
+                ViewBag.Sukces = "Profil zaktualizowany!";
+            }
+            else
+            {
+                foreach (var blad in wynik.Errors)
+                {
+                    ModelState.AddModelError("", blad.Description);
+                }
+            }
+
+            return View(uzytkownik);
+        }
     }
 }
