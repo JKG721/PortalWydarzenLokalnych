@@ -10,8 +10,8 @@
 <form method="post" enctype="multipart/form-data">
     <input type="hidden" name="Id" value="@Model.Id" />
     <div class="mb-3">
-        <label>Tytuł</label>
-        <input type="text" name="Tytul" value="@Model.Nazwa" class="form-control" required />
+        <label>Nazwa</label>
+        <input type="text" name="Nazwa" value="@Model.Nazwa" class="form-control" required />
     </div>
     <div class="mb-3">
         <label>Opis</label>
@@ -26,12 +26,12 @@
         <input type="text" name="Lokalizacja" value="@Model.Lokalizacja" class="form-control" required />
     </div>
     <div class="mb-3">
-        <label>Szerokość geograficzna</label>
-        <input type="text" name="Szerokosc" value="@Model.Szerokosc" class="form-control" required />
+        <label>Szerokość geograficzna (np. 50.0614)</label>
+        <input type="number" step="0.0001" name="Szerokosc" value="@Model.Szerokosc.ToString(System.Globalization.CultureInfo.InvariantCulture)" class="form-control" required />
     </div>
     <div class="mb-3">
-        <label>Długość geograficzna</label>
-        <input type="text" name="Dlugosc" value="@Model.Dlugosc" class="form-control" required />
+        <label>Długość geograficzna (np. 19.9366)</label>
+        <input type="number" step="0.0001" name="Dlugosc" value="@Model.Dlugosc.ToString(System.Globalization.CultureInfo.InvariantCulture)" class="form-control" required />
     </div>
     <div class="mb-3">
         <label>Maksymalna liczba uczestników</label>

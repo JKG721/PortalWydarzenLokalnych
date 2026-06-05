@@ -15,23 +15,26 @@ namespace PortalWydarzenLokalnych.Controllers.Admin
         {
             _db = db;
         }
-        //lista wydarzeń
+
+        // Lista wydarzeń
         public async Task<IActionResult> Index()
         {
             var wydarzenia = await _db.Wydarzenia.Include(w => w.Kategoria).ToListAsync();
             return View(wydarzenia);
         }
-        //formularz dodawania wydarzenia
+
+        // Formularz dodawania wydarzenia
         public async Task<IActionResult> Dodaj()
-        //pobieranie kategorii do listy wyboru
         {
+            // Pobieranie kategorii do listy wyboru
             ViewBag.Kategorie = await _db.Kategorie.ToListAsync();
             return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> Dodaj(Wydarzenie wydarzenie, IFormFile? zdjecie)
         {
-            //obsuługa uploadu zdjęcia
+            // Obsługa uploadu zdjęcia
             if (zdjecie != null && zdjecie.Length > 0)
             {
                 var nazwaPliku = Guid.NewGuid().ToString() + Path.GetExtension(zdjecie.FileName);
@@ -48,7 +51,8 @@ namespace PortalWydarzenLokalnych.Controllers.Admin
             await _db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
-        //formularz edycji wydarzenia
+
+        // Formularz edycji wydarzenia
         public async Task<IActionResult> Edytuj(int id)
         {
             var wydarzenie = await _db.Wydarzenia.FindAsync(id);
@@ -56,29 +60,40 @@ namespace PortalWydarzenLokalnych.Controllers.Admin
             ViewBag.Kategorie = await _db.Kategorie.ToListAsync();
             return View(wydarzenie);
         }
+
         [HttpPost]
-         public async Task<IActionResult> Edytuj(Wydarzenie wydarzenie, IFormFile? zdjecie)
-         {
-            //obsuługa uploadu zdjęcia nowego
+        public async Task<IActionResult> Edytuj(int Id, string Nazwa, string Opis, DateTime DataRozpoczecia, string Lokalizacja, string Szerokosc, string Dlugosc, int MaksUczestnikow, int KategoriaId, IFormFile? zdjecie)
+        {
+            var wydarzenie = await _db.Wydarzenia.FindAsync(Id);
+            if (wydarzenie == null) return NotFound();
+
+            wydarzenie.Nazwa = Nazwa;
+            wydarzenie.Opis = Opis;
+            wydarzenie.DataRozpoczecia = DataRozpoczecia;
+            wydarzenie.Lokalizacja = Lokalizacja;
+            wydarzenie.MaksUczestnikow = MaksUczestnikow;
+            wydarzenie.KategoriaId = KategoriaId;
+
+            // Parsowanie współrzędnych z kropką jako separatorem
+            wydarzenie.Szerokosc = double.Parse(Szerokosc, System.Globalization.CultureInfo.InvariantCulture);
+            wydarzenie.Dlugosc = double.Parse(Dlugosc, System.Globalization.CultureInfo.InvariantCulture);
+
             if (zdjecie != null && zdjecie.Length > 0)
             {
                 var nazwaPliku = Guid.NewGuid().ToString() + Path.GetExtension(zdjecie.FileName);
                 var sciezka = Path.Combine("wwwroot/uploads", nazwaPliku);
-
                 using (var stream = new FileStream(sciezka, FileMode.Create))
                 {
                     await zdjecie.CopyToAsync(stream);
                 }
-
                 wydarzenie.ZdjecieSciezka = "/uploads/" + nazwaPliku;
             }
 
-            _db.Wydarzenia.Update(wydarzenie);
             await _db.SaveChangesAsync();
-
             return RedirectToAction("Index");
-         }
-            //usuwanie wydarzenia
+        }
+
+        // Usuwanie wydarzenia
         public async Task<IActionResult> Usun(int id)
         {
             var wydarzenie = await _db.Wydarzenia.FindAsync(id);

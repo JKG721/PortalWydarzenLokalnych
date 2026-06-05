@@ -50,15 +50,16 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        // Inicjalizacja mapy na współrzędnych wydarzenia
-        var mapa = L.map('mapa').setView([@Model.Szerokosc, @Model.Dlugosc], 15);
+        var szerokosc = @Model.Szerokosc.ToString(System.Globalization.CultureInfo.InvariantCulture);
+        var dlugosc = @Model.Dlugosc.ToString(System.Globalization.CultureInfo.InvariantCulture);
+        
+        var mapa = L.map('mapa').setView([szerokosc, dlugosc], 15);
 
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '© OpenStreetMap'
         }).addTo(mapa);
 
-        // Znacznik na mapie
-        L.marker([@Model.Szerokosc, @Model.Dlugosc])
+        L.marker([szerokosc, dlugosc])
             .addTo(mapa)
             .bindPopup('@Model.Nazwa')
             .openPopup();
