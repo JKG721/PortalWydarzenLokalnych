@@ -1,0 +1,66 @@
+<!-- Szczegóły wydarzenia -->
+@model PortalWydarzenLokalnych.Models.Wydarzenie
+
+@{
+    ViewData["Title"] = @Model.Nazwa;
+}
+
+<div class="row">
+    <div class="col-md-8">
+        <h2>@Model.Nazwa</h2>
+
+        <!-- Zdjęcie -->
+        @if (!string.IsNullOrEmpty(Model.ZdjecieSciezka))
+        {
+            <img src="@Model.ZdjecieSciezka" class="img-fluid rounded mb-3" />
+        }
+
+        <!-- Opis -->
+        <p>@Model.Opis</p>
+
+        <!-- Informacje -->
+        <ul class="list-group mb-3">
+            <li class="list-group-item">📅 Data: @Model.DataRozpoczecia.ToString("dd.MM.yyyy HH:mm")</li>
+            <li class="list-group-item">📍 Lokalizacja: @Model.Lokalizacja</li>
+            <li class="list-group-item">🏷️ Kategoria: @Model.Kategoria?.Nazwa</li>
+            <li class="list-group-item">👥 Miejsca: @Model.Zapisy.Count / @Model.MaksUczestnikow</li>
+        </ul>
+
+        <!-- Przycisk zapisu -->
+        @if (User.Identity!.IsAuthenticated)
+        {
+            <a href="/Wydarzenia/Zapisz/@Model.Id" class="btn btn-primary">Zapisz się</a>
+        }
+        else
+        {
+            <a href="/Konto/Logowanie" class="btn btn-secondary">Zaloguj się aby się zapisać</a>
+        }
+
+        <a href="/Wydarzenia" class="btn btn-outline-secondary ms-2">Wróć do listy</a>
+    </div>
+
+    <div class="col-md-4">
+        <!-- Mapa Leaflet -->
+        <div id="mapa" style="height: 300px;" class="rounded"></div>
+    </div>
+</div>
+
+<!-- Skrypt mapy Leaflet -->
+@section Scripts {
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // Inicjalizacja mapy na współrzędnych wydarzenia
+        var mapa = L.map('mapa').setView([@Model.Szerokosc, @Model.Dlugosc], 15);
+
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap'
+        }).addTo(mapa);
+
+        // Znacznik na mapie
+        L.marker([@Model.Szerokosc, @Model.Dlugosc])
+            .addTo(mapa)
+            .bindPopup('@Model.Nazwa')
+            .openPopup();
+    </script>
+}

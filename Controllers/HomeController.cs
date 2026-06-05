@@ -1,24 +1,30 @@
-using System.Diagnostics;
+// Kontroler strony głównej
 using Microsoft.AspNetCore.Mvc;
-using PortalWydarzenLokalnych.Models;
+using Microsoft.EntityFrameworkCore;
+using PortalWydarzenLokalnych.Data;
 
-namespace PortalWydarzenLokalnych.Controllers;
-
-public class HomeController : Controller
+namespace PortalWydarzenLokalnych.Controllers
 {
-    public IActionResult Index()
+    public class HomeController : Controller
     {
-        return View();
-    }
+        private readonly AppDbContext _db;
 
-    public IActionResult Privacy()
-    {
-        return View();
-    }
+        public HomeController(AppDbContext db)
+        {
+            _db = db;
+        }
 
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        // Strona główna - pokazuje najbliższe wydarzenia
+        public async Task<IActionResult> Index()
+        {
+            var wydarzenia = await _db.Wydarzenia
+                .Include(w => w.Kategoria)
+                .Where(w => w.DataRozpoczecia >= DateTime.Now)
+                .OrderBy(w => w.DataRozpoczecia)
+                .Take(6)
+                .ToListAsync();
+
+            return View(wydarzenia);
+        }
     }
 }

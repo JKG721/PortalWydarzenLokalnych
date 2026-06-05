@@ -1,23 +1,41 @@
-﻿<!-- strona główna portalu -->
+<!-- Lista wszystkich wydarzeń z filtrami -->
 @model List<PortalWydarzenLokalnych.Models.Wydarzenie>
 
 @{
-    ViewData["Title"] = "Strona główna";
+    ViewData["Title"] = "Wydarzenia";
 }
 
-<!-- Nagłówek -->
-<div class="jumbotron bg-primary text-white p-5 mb-4 rounded">
-    <h1>Portal wydarzeń lokalnych</h1>
-    <p class="lead">Znajdź ciekawe wydarzenia w swojej okolicy!</p>
-    <a href="/Wydarzenia" class="btn btn-light btn-lg">Zobacz wszystkie wydarzenia</a>
-</div>
+<h2>Wydarzenia</h2>
 
-<!-- najbliższe wydarzenia -->
-<h2 class="mb-4">Najbliższe wydarzenia</h2>
+<!-- Filtry wyszukiwania -->
+<form method="get" class="mb-4">
+    <div class="row">
+        <div class="col-md-4">
+            <input type="text" name="szukaj" value="@ViewBag.SzukajFraza" 
+                   class="form-control" placeholder="Szukaj wydarzeń..." />
+        </div>
+        <div class="col-md-4">
+            <select name="kategoriaId" class="form-control">
+                <option value="">-- Wszystkie kategorie --</option>
+                @foreach (var k in ViewBag.Kategorie)
+                {
+                     <option value="@k.Id">@k.Nazwa</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary w-100">Szukaj</button>
+        </div>
+        <div class="col-md-2">
+            <a href="/Wydarzenia" class="btn btn-secondary w-100">Wyczyść</a>
+        </div>
+    </div>
+</form>
 
+<!-- Lista wydarzeń -->
 @if (Model.Count == 0)
 {
-    <p>Brak nadchodzących wydarzeń.</p>
+    <p>Nie znaleziono wydarzeń.</p>
 }
 else
 {
@@ -26,14 +44,9 @@ else
         {
             <div class="col-md-4 mb-4">
                 <div class="card h-100">
-                    <!-- Zdjęcie wydarzenia -->
                     @if (!string.IsNullOrEmpty(wydarzenie.ZdjecieSciezka))
                     {
                         <img src="@wydarzenie.ZdjecieSciezka" class="card-img-top" style="height: 200px; object-fit: cover;" />
-                    }
-                    else
-                    {
-                        <img src="/images/brak-zdjecia.jpg" class="card-img-top" style="height: 200px; object-fit: cover;" />
                     }
                     <div class="card-body">
                         <h5 class="card-title">@wydarzenie.Nazwa</h5>
