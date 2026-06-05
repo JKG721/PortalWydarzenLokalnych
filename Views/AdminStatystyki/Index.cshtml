@@ -1,0 +1,90 @@
+<!-- Strona statystyk panelu admina -->
+@{
+    ViewData["Title"] = "Statystyki";
+}
+
+<h2>Statystyki portalu</h2>
+
+<!-- Kafelki z liczbami -->
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card text-white bg-primary">
+            <div class="card-body text-center">
+                <h1>@ViewBag.LiczbaWydarzen</h1>
+                <p>Wydarzenia</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-success">
+            <div class="card-body text-center">
+                <h1>@ViewBag.LiczbaKategorii</h1>
+                <p>Kategorie</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-info">
+            <div class="card-body text-center">
+                <h1>@ViewBag.LiczbaUzytkownikow</h1>
+                <p>Użytkownicy</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-warning">
+            <div class="card-body text-center">
+                <h1>@ViewBag.LiczbaZapisow</h1>
+                <p>Zapisy</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Nadchodzące wydarzenia -->
+<div class="row">
+    <div class="col-md-6">
+        <h4>Najbliższe wydarzenia</h4>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nazwa</th>
+                    <th>Data</th>
+                    <th>Zapisanych</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var w in ViewBag.NadchodzaceWydarzenia)
+                {
+                    <tr>
+                        <td>@w.Nazwa</td>
+                        <td>@w.DataRozpoczecia.ToString("dd.MM.yyyy")</td>
+                        <td>@w.Zapisy.Count / @w.MaksUczestnikow</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-6">
+        <h4>Najpopularniejsze wydarzenia</h4>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nazwa</th>
+                    <th>Kategoria</th>
+                    <th>Zapisanych</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var w in ViewBag.PopularneWydarzenia)
+                {
+                    <tr>
+                        <td>@w.Nazwa</td>
+                        <td>@w.Kategoria?.Nazwa</td>
+                        <td>@w.Zapisy.Count</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
