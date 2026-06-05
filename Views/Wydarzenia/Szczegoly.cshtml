@@ -26,15 +26,23 @@
             <li class="list-group-item">👥 Miejsca: @Model.Zapisy.Count / @Model.MaksUczestnikow</li>
         </ul>
 
-        <!-- Przycisk zapisu -->
+        <!-- Przycisk zapisu lub wypisania -->
         @if (User.Identity!.IsAuthenticated)
         {
-            <a href="/Wydarzenia/Zapisz/@Model.Id" class="btn btn-primary">Zapisz się</a>
+            if (ViewBag.CzyZapisany)
+            {
+                <a href="/Wydarzenia/Wypisz/@Model.Id" class="btn btn-danger">Wypisz się</a>
+        }
         }
         else
         {
-            <a href="/Konto/Logowanie" class="btn btn-secondary">Zaloguj się aby się zapisać</a>
+            <a href="/Wydarzenia/Zapisz/@Model.Id" class="btn btn-primary">Zapisz się</a>
         }
+    }
+else
+{
+    <a href="/Konto/Logowanie" class="btn btn-secondary">Zaloguj się aby się zapisać</a>
+}
 
         <a href="/Wydarzenia" class="btn btn-outline-secondary ms-2">Wróć do listy</a>
     </div>

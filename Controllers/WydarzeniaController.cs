@@ -1,4 +1,5 @@
 // Kontroler publicznych widoków wydarzeń
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PortalWydarzenLokalnych.Data;
@@ -21,6 +22,7 @@ namespace PortalWydarzenLokalnych.Controllers
             // Pobieramy wszystkie przyszłe wydarzenia
             var query = _db.Wydarzenia
                 .Include(w => w.Kategoria)
+                .Include(w => w.Zapisy)
                 .Where(w => w.DataRozpoczecia >= DateTime.Now)
                 .AsQueryable();
 
@@ -56,11 +58,20 @@ namespace PortalWydarzenLokalnych.Controllers
 
             if (wydarzenie == null) return NotFound();
 
+            // Sprawdzamy czy zalogowany użytkownik jest już zapisany
+            var uzytkownikId = _db.Users
+                .Where(u => u.UserName == User.Identity!.Name)
+                .Select(u => u.Id)
+                .FirstOrDefault();
+
+            ViewBag.CzyZapisany = await _db.Zapisy
+                .AnyAsync(z => z.WydarzenieId == id && z.UzytkownikId == uzytkownikId);
+
             return View(wydarzenie);
         }
 
         // Zapis na wydarzenie
-        [Microsoft.AspNetCore.Authorization.Authorize]
+        [Authorize]
         public async Task<IActionResult> Zapisz(int id)
         {
             // Pobieramy id zalogowanego użytkownika
@@ -83,6 +94,27 @@ namespace PortalWydarzenLokalnych.Controllers
                 };
 
                 _db.Zapisy.Add(zapis);
+                await _db.SaveChangesAsync();
+            }
+
+            return RedirectToAction("Szczegoly", new { id });
+        }
+
+        // Wypisanie z wydarzenia
+        [Authorize]
+        public async Task<IActionResult> Wypisz(int id)
+        {
+            var uzytkownikId = _db.Users
+                .Where(u => u.UserName == User.Identity!.Name)
+                .Select(u => u.Id)
+                .FirstOrDefault();
+
+            var zapis = await _db.Zapisy
+                .FirstOrDefaultAsync(z => z.WydarzenieId == id && z.UzytkownikId == uzytkownikId);
+
+            if (zapis != null)
+            {
+                _db.Zapisy.Remove(zapis);
                 await _db.SaveChangesAsync();
             }
 
