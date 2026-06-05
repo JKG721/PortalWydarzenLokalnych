@@ -16,9 +16,12 @@ namespace PortalWydarzenLokalnych.Controllers
             _db = db;
         }
 
-        // Lista wszystkich wydarzeń z filtrowaniem i sortowaniem
-        public async Task<IActionResult> Index(int? kategoriaId, string? szukaj, string? dataOd, string? dataDo, string? sortuj)
+        // Lista wszystkich wydarzeń z filtrowaniem, sortowaniem i paginacją
+        public async Task<IActionResult> Index(int? kategoriaId, string? szukaj, string? dataOd, string? dataDo, string? sortuj, int strona = 1)
         {
+            // Liczba wydarzeń na stronie
+            int naStronie = 6;
+
             var query = _db.Wydarzenia
                 .Include(w => w.Kategoria)
                 .Include(w => w.Zapisy)
@@ -60,15 +63,25 @@ namespace PortalWydarzenLokalnych.Controllers
                 _ => query.OrderBy(w => w.DataRozpoczecia)
             };
 
-            var wydarzenia = await query.ToListAsync();
+            // Paginacja
+            int lacznie = await query.CountAsync();
+            int liczbaStron = (int)Math.Ceiling(lacznie / (double)naStronie);
 
-            // Przekazujemy dane do filtrów
+            var wydarzenia = await query
+                .Skip((strona - 1) * naStronie)
+                .Take(naStronie)
+                .ToListAsync();
+
+            // Przekazujemy dane do widoku
             ViewBag.Kategorie = await _db.Kategorie.ToListAsync();
             ViewBag.SzukajFraza = szukaj;
             ViewBag.KategoriaId = kategoriaId;
             ViewBag.DataOd = dataOd;
             ViewBag.DataDo = dataDo;
             ViewBag.Sortuj = sortuj;
+            ViewBag.Strona = strona;
+            ViewBag.LiczbaStron = liczbaStron;
+            ViewBag.Lacznie = lacznie;
 
             return View(wydarzenia);
         }

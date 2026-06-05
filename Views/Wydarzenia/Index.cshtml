@@ -90,4 +90,18 @@ else
             </div>
         }
     </div>
+    <!-- Paginacja -->
+    @if (ViewBag.LiczbaStron > 1)
+    {
+    <nav class="mt-4">
+        <ul class="pagination justify-content-center">
+            @for (int i = 1; i <= ViewBag.LiczbaStron; i++)
+            {
+                <li class="page-item @(i == ViewBag.Strona ? "active" : "")">
+                    <a class="page-link" href="/Wydarzenia?strona=@i&szukaj=@ViewBag.SzukajFraza&kategoriaId=@ViewBag.KategoriaId&dataOd=@ViewBag.DataOd&dataDo=@ViewBag.DataDo&sortuj=@ViewBag.Sortuj">@i</a>
+                </li>
+            }
+        </ul>
+    </nav>
+    }
 }
