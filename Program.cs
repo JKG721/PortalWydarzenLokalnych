@@ -53,4 +53,12 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
+// Uruchomienie seedera przy starcie aplikacji
+using (var scope = app.Services.CreateScope())
+{
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<Uzytkownik>>();
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    await Seeder.SeedAdmin(userManager, roleManager);
+}
+
 app.Run();
