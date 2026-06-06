@@ -32,17 +32,16 @@
             if (ViewBag.CzyZapisany)
             {
                 <a href="/Wydarzenia/Wypisz/@Model.Id" class="btn btn-danger">Wypisz się</a>
-        }
+            }
+            else
+            {
+                <a href="/Wydarzenia/Zapisz/@Model.Id" class="btn btn-primary">Zapisz się</a>
+            }
         }
         else
         {
-            <a href="/Wydarzenia/Zapisz/@Model.Id" class="btn btn-primary">Zapisz się</a>
+            <a href="/Konto/Logowanie" class="btn btn-secondary">Zaloguj się aby się zapisać</a>
         }
-    }
-else
-{
-    <a href="/Konto/Logowanie" class="btn btn-secondary">Zaloguj się aby się zapisać</a>
-}
 
         <a href="/Wydarzenia" class="btn btn-outline-secondary ms-2">Wróć do listy</a>
     </div>
@@ -60,7 +59,7 @@ else
     <script>
         var szerokosc = @Model.Szerokosc.ToString(System.Globalization.CultureInfo.InvariantCulture);
         var dlugosc = @Model.Dlugosc.ToString(System.Globalization.CultureInfo.InvariantCulture);
-        
+
         var mapa = L.map('mapa').setView([szerokosc, dlugosc], 15);
 
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
