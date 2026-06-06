@@ -115,7 +115,6 @@ C:\Users\kubag\Desktop\Studia Notatki\Semestr 4\Techniki internetowe\Portal z wy
 C:\Users\kubag\Desktop\Studia Notatki\Semestr 4\Techniki internetowe\Portal z wydarzeniami\PortalWydarzenLokalnych\obj\Debug\net10.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
 C:\Users\kubag\Desktop\Studia Notatki\Semestr 4\Techniki internetowe\Portal z wydarzeniami\PortalWydarzenLokalnych\obj\Debug\net10.0\scopedcss\bundle\PortalWydarzenLokalnych.styles.css
 C:\Users\kubag\Desktop\Studia Notatki\Semestr 4\Techniki internetowe\Portal z wydarzeniami\PortalWydarzenLokalnych\obj\Debug\net10.0\scopedcss\projectbundle\PortalWydarzenLokalnych.bundle.scp.css
-C:\Users\kubag\Desktop\Studia Notatki\Semestr 4\Techniki internetowe\Portal z wydarzeniami\PortalWydarzenLokalnych\obj\Debug\net10.0\compressed\hwrx8mgg74-{0}-b9sayid5wm-b9sayid5wm.gz
 C:\Users\kubag\Desktop\Studia Notatki\Semestr 4\Techniki internetowe\Portal z wydarzeniami\PortalWydarzenLokalnych\obj\Debug\net10.0\compressed\211z8wi5xr-{0}-61n19gt1b8-61n19gt1b8.gz
 C:\Users\kubag\Desktop\Studia Notatki\Semestr 4\Techniki internetowe\Portal z wydarzeniami\PortalWydarzenLokalnych\obj\Debug\net10.0\compressed\aueblqquov-{0}-xtxxf3hu2r-xtxxf3hu2r.gz
 C:\Users\kubag\Desktop\Studia Notatki\Semestr 4\Techniki internetowe\Portal z wydarzeniami\PortalWydarzenLokalnych\obj\Debug\net10.0\compressed\pvqu1ljt6k-{0}-bqjiyaj88i-bqjiyaj88i.gz
@@ -220,3 +219,4 @@ C:\Users\kubag\Desktop\Studia Notatki\Semestr 4\Techniki internetowe\Portal z wy
 C:\Users\kubag\Desktop\Studia Notatki\Semestr 4\Techniki internetowe\Portal z wydarzeniami\PortalWydarzenLokalnych\bin\Debug\net10.0\runtimes\win\lib\net6.0\System.Runtime.Caching.dll
 C:\Users\kubag\Desktop\Studia Notatki\Semestr 4\Techniki internetowe\Portal z wydarzeniami\PortalWydarzenLokalnych\bin\Debug\net10.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\kubag\Desktop\Studia Notatki\Semestr 4\Techniki internetowe\Portal z wydarzeniami\PortalWydarzenLokalnych\bin\Debug\net10.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
+C:\Users\kubag\Desktop\Studia Notatki\Semestr 4\Techniki internetowe\Portal z wydarzeniami\PortalWydarzenLokalnych\obj\Debug\net10.0\compressed\hwrx8mgg74-{0}-6on4w37fg2-6on4w37fg2.gz

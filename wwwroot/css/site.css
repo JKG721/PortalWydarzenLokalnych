@@ -29,3 +29,63 @@ body {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
 }
+
+/* Lepszy wygląd kart na mobile */
+@media (max-width: 768px) {
+    /* Karty wydarzeń na całą szerokość */
+    .card {
+        margin-bottom: 15px;
+    }
+
+    /* Mniejszy nagłówek na mobile */
+    .jumbotron h1 {
+        font-size: 1.8rem;
+    }
+
+    /* Filtry na całą szerokość */
+    .form-control {
+        margin-bottom: 8px;
+    }
+
+    /* Przyciski na całą szerokość na mobile */
+    .btn-mobile-full {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+
+    /* Mapa mniejsza na mobile */
+    #mapa {
+        height: 300px !important;
+    }
+
+    /* Tabela przewijana na mobile */
+    .table-responsive-mobile {
+        overflow-x: auto;
+    }
+
+    /* Nawigacja - mniejszy padding */
+    .navbar-brand {
+        font-size: 1rem;
+    }
+
+    /* Stopka */
+    footer {
+        font-size: 0.8rem;
+    }
+}
+
+/* Ładniejsze karty wydarzeń */
+.card {
+    transition: transform 0.2s;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* Ładniejszy nagłówek strony głównej */
+.jumbotron {
+    background: linear-gradient(135deg, #0d6efd, #0a58ca) !important;
+}
