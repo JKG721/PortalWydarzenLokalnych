@@ -1,0 +1,54 @@
+<!-- Mapa wszystkich wydarzeń -->
+@model List<PortalWydarzenLokalnych.Models.Wydarzenie>
+
+@{
+    ViewData["Title"] = "Mapa wydarzeń";
+}
+
+<h2>Mapa wydarzeń</h2>
+<p>Znajdź wydarzenie w swojej okolicy!</p>
+
+<!-- Mapa -->
+<div id="mapa" style="height: 600px;" class="rounded mb-4"></div>
+
+@section Scripts {
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // Inicjalizacja mapy - centrum Polski
+        var mapa = L.map('mapa').setView([52.0, 19.0], 6);
+
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap'
+        }).addTo(mapa);
+
+        // Dodajemy znaczniki dla każdego wydarzenia
+        var wydarzenia = [
+            @foreach (var w in Model)
+            {
+                <text>
+                {
+                    nazwa: "@w.Nazwa",
+                    data: "@w.DataRozpoczecia.ToString("dd.MM.yyyy HH:mm")",
+                    lokalizacja: "@w.Lokalizacja",
+                    szerokosc: @w.Szerokosc.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                    dlugosc: @w.Dlugosc.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                    url: "/Wydarzenia/Szczegoly/@w.Id"
+                },
+                </text>
+            }
+        ];
+
+        // Dodajemy znacznik dla każdego wydarzenia
+        wydarzenia.forEach(function(w) {
+            L.marker([w.szerokosc, w.dlugosc])
+                .addTo(mapa)
+                .bindPopup(
+                    '<b>' + w.nazwa + '</b><br>' +
+                    '📅 ' + w.data + '<br>' +
+                    '📍 ' + w.lokalizacja + '<br>' +
+                    '<a href="' + w.url + '" class="btn btn-primary btn-sm mt-2">Zobacz szczegóły</a>'
+                );
+        });
+    </script>
+}
